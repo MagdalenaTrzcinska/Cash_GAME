@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="df1c2bb9-3969-4996-bf31-3c7dbe082b5f" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="ComposerSettings">
+    <execution>
+      <executable />
+    </execution>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="CSS File" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="1" />
+  </component>
+  <component name="ProjectId" id="1oYonONTUcxHuneJZg5Qg0PISxR" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="df1c2bb9-3969-4996-bf31-3c7dbe082b5f" name="Default Changelist" comment="" />
+      <created>1613473051132</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1613473051132</updated>
+      <workItem from="1613473055341" duration="853000" />
+      <workItem from="1613504036474" duration="2791000" />
+      <workItem from="1613587995166" duration="2132000" />
+      <workItem from="1613591744937" duration="1099000" />
+      <workItem from="1613654982206" duration="598000" />
+      <workItem from="1613655672058" duration="7180000" />
+      <workItem from="1613825141431" duration="5549000" />
+      <workItem from="1613973730496" duration="12291000" />
+      <workItem from="1613991727884" duration="7782000" />
+      <workItem from="1614060456546" duration="7395000" />
+      <workItem from="1614077348329" duration="4518000" />
+      <workItem from="1614108748552" duration="56000" />
+      <workItem from="1614151545671" duration="6196000" />
+      <workItem from="1614232688188" duration="7226000" />
+      <workItem from="1614256137689" duration="6616000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="77" y="240" key="#Inspections" timestamp="1613661470515">
+      <screen x="0" y="25" width="1920" height="1105" />
+    </state>
+    <state x="77" y="240" key="#Inspections/0.25.1920.1105@0.25.1920.1105" timestamp="1613661470515" />
+    <state x="158" y="369" key="com.intellij.ide.util.TipDialog" timestamp="1614256162016">
+      <screen x="0" y="25" width="1920" height="985" />
+    </state>
+    <state x="158" y="369" key="com.intellij.ide.util.TipDialog/-1920.157.1920.1175/0.25.1920.985@0.25.1920.985" timestamp="1614256162016" />
+    <state x="158" y="411" key="com.intellij.ide.util.TipDialog/0.23.1920.1112@0.23.1920.1112" timestamp="1613504035225" />
+    <state x="158" y="411" key="com.intellij.ide.util.TipDialog/0.25.1920.1105@0.25.1920.1105" timestamp="1613825141544" />
+    <state x="1035" y="242" width="670" height="676" key="search.everywhere.popup" timestamp="1614009039638">
+      <screen x="0" y="25" width="1920" height="985" />
+    </state>
+    <state x="1035" y="242" width="670" height="676" key="search.everywhere.popup/-1920.157.1920.1175/0.25.1920.985@0.25.1920.985" timestamp="1614009039638" />
+  </component>
+</project>

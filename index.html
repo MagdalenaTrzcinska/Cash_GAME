@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cash</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="row no-gutters">
+        <div class="col-lg-5 col-12">
+            <div class="wallet p-3">
+                <div class="wallet-money"><span></span> $</div>
+
+                <label for="betAmount">Bet Amount</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" class="form-control" id="betAmount">
+
+                    <div class="input-group-append">
+                        <button class="btn max" type="button">Max</button>
+                    </div>
+                </div>
+
+                <label for="autoCashout">Auto Cashout</label>
+                <input type="text" class="form-control" id="autoCashout">
+
+                <button class="btn btn-warning text-dark w-100 mt-2 placeBet">Place Bet</button>
+                <hr>
+
+                <div class="history">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7 col-12 board text-center align-content-center">30</div>
+    </div>
+</div>
+
+<!--<script src="OOP.js" type="module"></script>-->
+<script src="script.js"></script>
+</body>
+</html>

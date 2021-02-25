@@ -1,0 +1,79 @@
+body {
+    background: url("tlo.png") 30% 5%;
+    color: white;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+input[type="text"],
+input[type="text"]:focus{
+    background-color: #e6e6e6;
+    border-color: #e6e6e6;
+}
+.input-group-text,
+.input-group-append button {
+    background-color: #c6c6c6;
+    border: none;
+}
+
+.row {
+    height: 500px;
+    -webkit-box-shadow: 0px 0px 27px 1px rgba(91,91,91,0.81);
+    box-shadow: 0px 0px 27px 1px rgba(91,91,91,0.81);
+}
+
+.wallet {
+    height: 100%;
+    background-color: #1a1a1a;
+}
+
+hr {
+    border-top: 1px solid #cacaca;
+    border-radius: 50%;
+}
+
+.history {
+    overflow-y: scroll;
+    height: 150px;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #b2c1c2;
+    border-radius: 10px;
+}
+
+
+.wallet-money {
+    width: 100%;
+    text-align: right;
+    font-size: 30px;
+
+}
+
+.board {
+    background-color: #4ea196;
+    padding-top: 130px;
+    font-size: 140px;
+    font-weight: 500;
+
+}
+
+
+
