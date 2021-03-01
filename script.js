@@ -1,10 +1,10 @@
 const walletSpan = document.querySelector(".wallet-money span");
 const betAccountInput = document.querySelector("#betAmount");
+const btnMax = document.querySelector("button.max");
 const autoCashoutInput = document.querySelector("#autoCashout");
 const placeBetBtn = document.querySelector("button.placeBet");
-const btnMax = document.querySelector("button.max");
-const board = document.querySelector(".board");
 const historyDiv = document.querySelector(".history");
+const board = document.querySelector(".board");
 
 const panel = {
     moneyAvailable: null,
@@ -27,7 +27,6 @@ downloadingFromCookie();
 function start() {
     currentMultiplier = 1;
     counter = 30;
-    //placeBetBtn.innerHTML = 'Place Bet';
     setTimeout(() => {
         board.style.backgroundColor = '#4ea196';
         placeBetBtn.disabled = false;
@@ -41,8 +40,6 @@ function downloadingFromCookie() {
         account = localStorage.setItem('account', 1000);
         account = localStorage.getItem('account');
     }
-
-    account = 1000;
     panel.moneyAvailable = account;
     walletSpan.innerHTML = panel.moneyAvailable;
 }
@@ -57,21 +54,15 @@ function startCountdown() {
 }
 
 function calcOfProbability() {
-    Math.random() < 0.7 ? drawingTheMultiplier(1) : drawingTheMultiplier(15);
-    //buttonChange();
+    multiplierValue = Math.random() < 0.7 ? drawingTheMultiplier(1) : drawingTheMultiplier(15);
     clearInterval(interval);
     buttonChange();
-    alert(panel.bet);
-    if (panel.bet == null || panel.bet == '' || panel.bet == 0) {
-        placeBetBtn.disabled = true;
-    } else {
-        placeBetBtn.disabled = false;
-    }
+    panel.bet == null || panel.bet === '' || panel.bet == 0 ? placeBetBtn.disabled = true : placeBetBtn.disabled = false;
     interval = setInterval(timer, 20);
 }
 
 function drawingTheMultiplier(min) {
-    multiplierValue = ((Math.random() * 15) + min).toFixed(2);
+    return ((Math.random() * 15) + min).toFixed(2);
 }
 
 function buttonChange() {
@@ -85,15 +76,30 @@ function timer() {
     if (currentMultiplier < multiplierValue) {
         board.innerHTML = currentMultiplier.toFixed(2) + "x";
         currentMultiplier += 0.01;
+        checkAuto();
     } else {
         multiplierInterruption();
     }
+}
 
+function checkAuto() {
+    let cashout;
+
+    for (let i of panel.autoCashout) {
+        if (panel.autoCashout.charAt(i) === '.')
+            break;
+        else
+            cashout = panel.autoCashout + '.00';
+
+    }
+    if (cashout == currentMultiplier.toFixed(2)) {
+        win();
+    }
 }
 
 function multiplierInterruption() {
     addToHis();
-    board.innerHTML = "0.00x";
+    board.textContent = "0.00x";
     board.style.backgroundColor = '#ff6666';
     clearInterval(interval);
     buttonChange();
@@ -101,47 +107,41 @@ function multiplierInterruption() {
 }
 
 function addToHis() {
-    historyDiv.innerHTML = "";
+    historyDiv.textContent = "";
     panel.historyOfMultipliers.unshift(multiplierValue);
     panel.historyOfMultipliers.forEach((one) => historyDiv.innerHTML += one + "x<br/>")
 }
-
-////////
 
 placeBetBtn.addEventListener('click', () => {
     if (placeBetBtn.innerHTML === 'Place Bet') {
         placeBetBtn.disabled = true;
         addPlaceBet();
-    } else {
-        if (board.innerHTML !== "0.00x") {
-            win();
-        }
+    } else if (board.textContent !== "0.00x") {
+        win();
     }
-    //buttonChange();
 });
 
 function win() {
     let win = panel.bet * currentMultiplier.toFixed(2);
     panel.moneyAvailable += win;
-    a();
+    updateMoney();
 }
 
 function addPlaceBet() {
-    if (betAccountInput.value <= panel.moneyAvailable) {
+    if (betAccountInput.value <= panel.moneyAvailable && betAccountInput.value > 0 && betAccountInput.value !== 0) {
         panel.bet = betAccountInput.value;
         panel.moneyAvailable -= panel.bet;
         betAccountInput.value = '';
-        a();
-        //buttonChange();
+        updateMoney();
     } else {
-        alert("nie masz wystarczająco środków");
+        alert('invalid bet');
         betAccountInput.value = '';
-        return;
+        throw {message: 'Invalid bet'};
     }
 }
 
-function a() {
+function updateMoney() {
     localStorage.setItem('account', panel.moneyAvailable);
-    walletSpan.innerHTML = panel.moneyAvailable;
+    walletSpan.textContent = panel.moneyAvailable;
     placeBetBtn.disabled = true;
 }
