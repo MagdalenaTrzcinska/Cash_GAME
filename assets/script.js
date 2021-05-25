@@ -1,183 +1,86 @@
-const board = document.querySelector(".board");
-const placeBetBtn = document.querySelector("button.placeBet");
+import {Wallet} from "./Panel.js";
+import {Timer} from "./Timer.js";
 
-let currentMultiplier;
-
-class Panel {
-    btnMax = document.querySelector("button.max");
-    autoCashoutInput = document.querySelector("#autoCashout");
-    betAccountInput = document.querySelector("#betAmount");
-    walletSpan = document.querySelector(".wallet-money span");
-
-    historyDiv = document.querySelector(".history");
-
-    panel = {
-        moneyAvailable: null,
-        bet: null,
-        autoCashout: null,
-        historyOfMultipliers: []
-    };
-
-    constructor() {
-        this.btnMax.addEventListener('click', () => this.betAccountInput.value = this.panel.moneyAvailable);
-        this.autoCashoutInput.addEventListener('change', () => this.panel.autoCashout = this.autoCashoutInput.value);
-
-        placeBetBtn.addEventListener('click', () => {
-            if (placeBetBtn.innerHTML === 'Place Bet') {
-                this.addPlaceBet();
-            } else if (board.textContent !== "0.00x") {
-                new Game().win();
-            }
-        });
-
-        this.downloadingFromCookie();
-    }
-
-    downloadingFromCookie() {
-        let account = localStorage.getItem('account');
-        if (account === null) {
-            account = localStorage.setItem('account', 1000);
-            account = localStorage.getItem('account');
-        }
-        this.panel.moneyAvailable = account;
-        this.walletSpan.innerHTML = this.panel.moneyAvailable;
-    }
-
-    changeDisabled() {
-        this.panel.bet == null || this.panel.bet === '' || this.panel.bet == 0 ? placeBetBtn.disabled = true : placeBetBtn.disabled = false;
-    }
-
-    addPlaceBet() {
-        if (+this.betAccountInput.value <= this.panel.moneyAvailable && +this.betAccountInput.value > 0 && +this.betAccountInput.value !== 0) {
-            placeBetBtn.disabled = true;
-            this.panel.bet = +this.betAccountInput.value;
-            this.panel.moneyAvailable -= this.panel.bet;
-            this.updateMoney();
-        } else {
-            alert('invalid bet');
-            throw {message: 'Invalid bet'};
-        }
-        this.betAccountInput.value = '';
-    }
-
-    updateMoney() {
-        localStorage.setItem('account', this.panel.moneyAvailable);
-        this.walletSpan.textContent = this.panel.moneyAvailable;
-        placeBetBtn.disabled = true;
-    }
-
-    addToHis(value) {
-        this.historyDiv.textContent = "";
-        this.panel.historyOfMultipliers.unshift(value);
-        this.panel.historyOfMultipliers.forEach((one) => this.historyDiv.innerHTML += one + "x<br/>")
-    }
-
-    checkAuto(current) {
-        let cashout;
-        for (let i of this.panel.autoCashout) {
-            if (this.panel.autoCashout.charAt(i) === '.') {
-                cashout = this.panel.autoCashout;
-                break;
-            } else
-                cashout = this.panel.autoCashout + '.00';
-        }
-        if (cashout == current.toFixed(2)) {
-            new Game().win();
-        }
-    }
-
-    buttonChange() {
-        placeBetBtn.innerHTML === 'Cash Out...' ? placeBetBtn.innerHTML = 'Place Bet' : placeBetBtn.innerHTML = 'Cash Out...';
-        placeBetBtn.classList.toggle("btn-warning");
-        placeBetBtn.classList.toggle("btn-success");
-        placeBetBtn.classList.toggle("text-dark");
-    }
-}
-
-class Counter {
-    counterValue;
-    constructor() {
-        this.panel2 = new Panel();
-        this.counterValue = 30;
-    }
-
-    returnCounter() {
-        if (this.counterValue >= 1) {
-            return this.counterValue--;
-        } else {
-            return false;
-        }
-    }
-
-    returnA(multiplierValue) {
-        if (currentMultiplier < multiplierValue) {
-             currentMultiplier += 0.01;
-            if (this.panel2.panel.autoCashout) {
-                this.panel2.checkAuto(currentMultiplier);
-            }
-            return currentMultiplier;
-        } else {
-            return false;
-        }
-    }
-
-    mV() {
-        return  Math.random() < 0.7 ? this.drawingTheMultiplier(1) : this.drawingTheMultiplier(15);
-    }
-
-    drawingTheMultiplier(min) {
-        return ((Math.random() * 15) + min).toFixed(2);
-    }
-}
-class Pomoc {
-    changeText(text) {
-        board.textContent = text;
-    }
-}
-
-class Game extends Pomoc {
+class Game {
+    static currentMultiplier;
     interval;
     multiplierValue;
 
+    board = document.querySelector(".board");
+
+    historyDiv = document.querySelector(".history");
+    placeBetBtn = document.querySelector("button.placeBet");
+
+
     constructor() {
-        super();
-        this.panel2 = new Panel();
-        this.counter = new Counter();
+        this.timer = new Timer();
+        this.wallet = new Wallet();
+
+        this.placeBetBtn.addEventListener('click', () => {
+            if (this.placeBetBtn.innerHTML === 'Place Bet') {
+                this.wallet.addPlaceBet();
+            } else if (this.board.textContent !== "0.00x") {
+                this.win();
+            }
+        });
+    }
+
+    win() {
+        this.wallet.win(Game.currentMultiplier.toFixed(2));
     }
 
     start() {
-        currentMultiplier = 1;
+        Game.currentMultiplier = 1;
+
         setTimeout(() => {
-            board.style.backgroundColor = '#4ea196';
-            placeBetBtn.disabled = false;
+            this.board.style.backgroundColor = '#4ea196';
+            this.placeBetBtn.disabled = false;
             this.interval = setInterval(this.startCountdown.bind(this), 800);
         }, 5000);
     }
 
     startCountdown() {
-        let counter2 = this.counter.returnCounter();
-        if(counter2) {
-            board.textContent = counter2;
+        let counter2 = this.timer.returnTimer();
+        if (counter2) {
+            this.board.textContent = counter2;
         } else if (!counter2) {
             this.calcOfProbability();
         }
     }
 
     calcOfProbability() {
-        this.multiplierValue = this.counter.mV();
+        this.multiplierValue = this.getMultiplierValue();
         clearInterval(this.interval);
-        this.panel2.buttonChange();
-        this.panel2.changeDisabled(); //////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        this.interval = setInterval(this.timer.bind(this), 20);
+        this.buttonChange();
+        this.changeDisabled();
+        this.interval = setInterval(this.multiplierCounter.bind(this), 20);
     }
 
+    changeDisabled() {
+        this.wallet.panel.bet == null || this.wallet.panel.bet === '' || this.wallet.panel.bet == 0 ? this.placeBetBtn.disabled = true : this.placeBetBtn.disabled = false;
+    }
 
-    timer() {
-        let current = this.counter.returnA(this.multiplierValue);
+    buttonChange() {
+        this.placeBetBtn.innerHTML === 'Cash Out...' ? this.placeBetBtn.innerHTML = 'Place Bet' : this.placeBetBtn.innerHTML = 'Cash Out...';
+        this.placeBetBtn.classList.toggle("btn-warning");
+        this.placeBetBtn.classList.toggle("btn-success");
+        this.placeBetBtn.classList.toggle("text-dark");
+    }
+
+    getMultiplierValue() {
+        return Math.random() < 0.7 ? this.drawingTheMultiplier(1) : this.drawingTheMultiplier(15);
+    }
+
+    drawingTheMultiplier(min) {
+        return ((Math.random() * 15) + min).toFixed(2);
+    }
+
+    multiplierCounter() {
+        let current = this.returnA(this.multiplierValue);
         if (current) {
             this.changeText(current.toFixed(2) + "x");
-            if (this.panel2.panel.autoCashout) {
-                this.panel2.checkAuto();
+            if (this.wallet.panel.autoCashout) {
+                this.wallet.panel.checkAuto();
             }
         } else {
             this.multiplierInterruption();
@@ -185,23 +88,51 @@ class Game extends Pomoc {
     }
 
     multiplierInterruption() {
-        this.panel2.addToHis(this.multiplierValue);
+        this.addToHis(this.multiplierValue);
         this.changeText("0.00x");
-        board.style.backgroundColor = '#ff6666';
+        this.board.style.backgroundColor = '#ff6666';
         clearInterval(this.interval);
-        this.panel2.buttonChange();
+        this.buttonChange();
         this.start();
     }
 
-    win() {
-        let win = this.panel.bet * currentMultiplier.toFixed(2);
-        this.panel.moneyAvailable += win;
-        this.panel2.updateMoney();
+    addToHis(value) {
+        this.historyDiv.textContent = "";
+        this.wallet.panel.historyOfMultipliers.unshift(value);
+        this.wallet.panel.historyOfMultipliers.forEach((one) => this.historyDiv.innerHTML += one + "x<br/>")
+    }
+
+    changeText(text) {
+        this.board.textContent = text;
+    }
+
+    returnA(multiplierValue) {
+        if (Game.currentMultiplier < multiplierValue) {
+            Game.currentMultiplier += 0.01;
+            if (this.wallet.panel.autoCashout) {
+                this.checkAuto(Game.currentMultiplier);
+            }
+            return Game.currentMultiplier;
+        } else {
+            return false;
+        }
+    }
+
+    checkAuto(current) {
+        let cashout;
+        for (let i of this.wallet.panel.autoCashout) {
+            if (this.wallet.panel.autoCashout.charAt(i) === '.') {
+                cashout = this.wallet.panel.autoCashout;
+                break;
+            } else
+                cashout = this.wallet.panel.autoCashout + '.00';
+        }
+        if (cashout == current.toFixed(2)) {
+            new Game().win();
+        }
     }
 }
 
+
 const game = new Game();
 game.start();
-
-
-

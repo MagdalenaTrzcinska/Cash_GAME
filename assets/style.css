@@ -11,10 +11,11 @@ body {
 }
 
 input[type="text"],
-input[type="text"]:focus{
+input[type="text"]:focus {
     background-color: #e6e6e6;
     border-color: #e6e6e6;
 }
+
 .input-group-text,
 .input-group-append button {
     background-color: #c6c6c6;
@@ -23,8 +24,8 @@ input[type="text"]:focus{
 
 .row {
     height: 500px;
-    -webkit-box-shadow: 0px 0px 27px 1px rgba(91,91,91,0.81);
-    box-shadow: 0px 0px 27px 1px rgba(91,91,91,0.81);
+    -webkit-box-shadow: 0px 0px 27px 1px rgba(91, 91, 91, 0.81);
+    box-shadow: 0px 0px 27px 1px rgba(91, 91, 91, 0.81);
 }
 
 .wallet {
@@ -42,25 +43,7 @@ hr {
     height: 150px;
 }
 
-/* width */
-::-webkit-scrollbar {
-    width: 5px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey;
-    border-radius: 10px;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: #b2c1c2;
-    border-radius: 10px;
-}
-
-
-.wallet-money {
+.wallet_money {
     width: 100%;
     text-align: right;
     font-size: 30px;
