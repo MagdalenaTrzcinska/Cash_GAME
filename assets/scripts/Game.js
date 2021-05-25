@@ -50,8 +50,12 @@ class Game {
         this.interval = setInterval(this.multiplierCounter.bind(this), 20);
     }
 
-    changeDisabled() {
-        this.wallet.panel.bet == null || this.wallet.panel.bet === '' || this.wallet.panel.bet == 0 ? this.placeBetBtn.disabled = true : this.placeBetBtn.disabled = false;
+    getMultiplierValue() {
+        return Math.random() < 0.7 ? this.drawingTheMultiplier(1) : this.drawingTheMultiplier(15);
+    }
+
+    drawingTheMultiplier(min) {
+        return ((Math.random() * 15) + min).toFixed(2);
     }
 
     buttonChange() {
@@ -61,39 +65,20 @@ class Game {
         this.placeBetBtn.classList.toggle("text-dark");
     }
 
-    getMultiplierValue() {
-        return Math.random() < 0.7 ? this.drawingTheMultiplier(1) : this.drawingTheMultiplier(15);
-    }
-
-    drawingTheMultiplier(min) {
-        return ((Math.random() * 15) + min).toFixed(2);
+    changeDisabled() {
+        this.wallet.panel.bet == null || this.wallet.panel.bet === '' || this.wallet.panel.bet == 0 ? this.placeBetBtn.disabled = true : this.placeBetBtn.disabled = false;
     }
 
     multiplierCounter() {
         let current = this.multiplierIncrease(this.multiplierValue);
         if (current) {
-            this.changeText(current.toFixed(2) + "x");
+            this.board.textContent = current.toFixed(2) + "x";
             if (this.wallet.panel.autoCashout) {
                 this.wallet.panel.checkAuto();
             }
         } else {
             this.multiplierInterruption();
         }
-    }
-
-    multiplierInterruption() {
-        this.addToHistory(this.multiplierValue);
-        this.board.textContent = "0.00x";
-        this.board.style.backgroundColor = '#ff6666';
-        clearInterval(this.interval);
-        this.buttonChange();
-        this.start();
-    }
-
-    addToHistory(value) {
-        this.historyDiv.textContent = "";
-        this.wallet.panel.historyOfMultipliers.unshift(value);
-        this.wallet.panel.historyOfMultipliers.forEach((one) => this.historyDiv.innerHTML += one + "x<br/>")
     }
 
     multiplierIncrease(multiplierValue) {
@@ -120,6 +105,21 @@ class Game {
         if (cashout == current.toFixed(2)) {
             new Game().win();
         }
+    }
+
+    multiplierInterruption() {
+        this.addToHistory(this.multiplierValue);
+        this.board.textContent = "0.00x";
+        this.board.style.backgroundColor = '#ff6666';
+        clearInterval(this.interval);
+        this.buttonChange();
+        this.start();
+    }
+
+    addToHistory(value) {
+        this.historyDiv.textContent = "";
+        this.wallet.panel.historyOfMultipliers.unshift(value);
+        this.wallet.panel.historyOfMultipliers.forEach((one) => this.historyDiv.innerHTML += one + "x<br/>")
     }
 }
 
