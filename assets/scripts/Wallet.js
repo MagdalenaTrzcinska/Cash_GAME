@@ -1,33 +1,21 @@
 import {Cookie} from "./Cookie.js";
-
-export class Panel {
-    constructor(moneyAvailable, bet, autoCashout, historyOfMultipliers) {
-        this.moneyAvailable = moneyAvailable;
-        this.bet = bet;
-        this.autoCashout = autoCashout;
-        this.historyOfMultipliers = historyOfMultipliers;
-    }
-}
-
+import {Panel} from "./Panel.js";
 
 export class Wallet {
-    panel = new Panel(0, 0, 0, []);
-
-
     btnMax = document.querySelector("button.max");
     autoCashoutInput = document.querySelector("#autoCashout");
     betAccountInput = document.querySelector("#betAmount");
     walletSpan = document.querySelector(".wallet_money span");
+    placeBetBtn = document.querySelector("button.placeBet");
 
-    static placeBetBtn = document.querySelector("button.placeBet");
+    panel = new Panel(0, 0, 0, []);
 
     constructor() {
         this.cookie = new Cookie();
         this.btnMax.addEventListener('click', () => this.betAccountInput.value = this.panel.moneyAvailable);
-        this.autoCashoutInput.addEventListener('change', () => this.autoCashout = this.autoCashoutInput.value);
+        this.autoCashoutInput.addEventListener('change', () => this.panel.autoCashout = this.autoCashoutInput.value);
 
         this.downloadingFromCookie();
-
     }
 
     downloadingFromCookie() {
@@ -48,16 +36,15 @@ export class Wallet {
         this.betAccountInput.value = '';
     }
 
-    updateMoney() {
-        this.cookie.setCookie(this.panel.moneyAvailable);
-        this.walletSpan.textContent = this.panel.moneyAvailable;
-        Panel.placeBetBtn.disabled = true;
-    }
-
     win(multiplier) {
         let win = this.panel.bet * multiplier;
         this.panel.moneyAvailable += win;
         this.updateMoney();
     }
 
+    updateMoney() {
+        this.cookie.setCookie(this.panel.moneyAvailable);
+        this.walletSpan.textContent = this.panel.moneyAvailable;
+        this.placeBetBtn.disabled = true;
+    }
 }

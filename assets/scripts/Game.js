@@ -1,4 +1,4 @@
-import {Wallet} from "./Panel.js";
+import {Wallet} from "./Wallet.js";
 import {Timer} from "./Timer.js";
 
 class Game {
@@ -7,10 +7,8 @@ class Game {
     multiplierValue;
 
     board = document.querySelector(".board");
-
     historyDiv = document.querySelector(".history");
     placeBetBtn = document.querySelector("button.placeBet");
-
 
     constructor() {
         this.timer = new Timer();
@@ -20,13 +18,9 @@ class Game {
             if (this.placeBetBtn.innerHTML === 'Place Bet') {
                 this.wallet.addPlaceBet();
             } else if (this.board.textContent !== "0.00x") {
-                this.win();
+                this.wallet.win(Game.currentMultiplier.toFixed(2));
             }
         });
-    }
-
-    win() {
-        this.wallet.win(Game.currentMultiplier.toFixed(2));
     }
 
     start() {
@@ -40,10 +34,10 @@ class Game {
     }
 
     startCountdown() {
-        let counter2 = this.timer.returnTimer();
-        if (counter2) {
-            this.board.textContent = counter2;
-        } else if (!counter2) {
+        let counter = this.timer.returnTimer();
+        if (counter) {
+            this.board.textContent = counter;
+        } else if (!counter) {
             this.calcOfProbability();
         }
     }
@@ -76,7 +70,7 @@ class Game {
     }
 
     multiplierCounter() {
-        let current = this.returnA(this.multiplierValue);
+        let current = this.multiplierIncrease(this.multiplierValue);
         if (current) {
             this.changeText(current.toFixed(2) + "x");
             if (this.wallet.panel.autoCashout) {
@@ -88,25 +82,21 @@ class Game {
     }
 
     multiplierInterruption() {
-        this.addToHis(this.multiplierValue);
-        this.changeText("0.00x");
+        this.addToHistory(this.multiplierValue);
+        this.board.textContent = "0.00x";
         this.board.style.backgroundColor = '#ff6666';
         clearInterval(this.interval);
         this.buttonChange();
         this.start();
     }
 
-    addToHis(value) {
+    addToHistory(value) {
         this.historyDiv.textContent = "";
         this.wallet.panel.historyOfMultipliers.unshift(value);
         this.wallet.panel.historyOfMultipliers.forEach((one) => this.historyDiv.innerHTML += one + "x<br/>")
     }
 
-    changeText(text) {
-        this.board.textContent = text;
-    }
-
-    returnA(multiplierValue) {
+    multiplierIncrease(multiplierValue) {
         if (Game.currentMultiplier < multiplierValue) {
             Game.currentMultiplier += 0.01;
             if (this.wallet.panel.autoCashout) {
@@ -132,7 +122,6 @@ class Game {
         }
     }
 }
-
 
 const game = new Game();
 game.start();
